@@ -44,7 +44,3 @@ function onDownload() {
   }
 
 }
-
-window.onload = function(){
-
-}

@@ -23,7 +23,6 @@ app.get('/guessGenre', function(req, res) {
   const echo = spawn('echo', ["lol who knowsss"]);
 
   echo.stdout.on('data', (data) => {
-    console.log(`${data}`);
     res.send(`${data}`);
   })
 })
