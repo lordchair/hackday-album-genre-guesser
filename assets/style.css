@@ -4,53 +4,6 @@ body {
   color: #0066CC;
 }
 
-#uploadPlaceholder {
-  margin: 80px auto 10px auto;
-  height: 400px;
-  width: 500px;
-  border: 4px dashed #0066CC;
-  text-align: center;
-  position: relative;
-}
-
-img#albumCoverDiv {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 470px;
-  max-height: 370px;
-}
-
-img.fileIcon {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  cursor: pointer;
-}
-
-input#urlInput {
-  margin-top: 30px;
-  width: 300px;
-  height: 20px;
-  border: 2px solid #0066CC;
-  font-size: 12pt;
-  padding: 5px;
-}
-
-div#urlDownload {
-  background-color: #CCCCCC;
-  width: 200px;
-  margin: auto;
-  height: 30px;
-  line-height: 30px;
-  cursor: pointer;
-}
-
-h3.genreBox {
-  margin-top: 30px;
-  cursor: pointer;
-}
-
 #camera {
   display: flex;
   flex-direction: column;
