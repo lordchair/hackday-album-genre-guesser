@@ -1,3 +1,4 @@
+.DS_Store
 node_modules
 images/*
 !images/Joy-Division-Unknown-Pleasures-album-covers-billboard-1000x1000.jpg

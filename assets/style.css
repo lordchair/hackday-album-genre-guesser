@@ -50,3 +50,31 @@ h3.genreBox {
   margin-top: 30px;
   cursor: pointer;
 }
+
+#camera {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#my_camera {
+  width: 90vw !important;
+  max-width: 1000px;
+  height: 90vw !important;
+  max-height: 1000px;
+}
+
+video {
+  width: initial !important;
+  height: 100% !important;
+}
+
+#processed_images {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.result_wrapper {
+  padding: 1rem;
+}
