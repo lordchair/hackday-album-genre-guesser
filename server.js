@@ -1,18 +1,16 @@
 const express = require("express");
 const multer = require("multer");
-const spawn   = require('child_process').spawn;
 const fork   = require('child_process').fork;
 const path = require("path");
-const http = require('http');
+
 const fs = require('fs');
+const http = require('http');
 const sharp = require('sharp');
 
 
 const app = express();
-// Serve template and static assets
-app.use(express.static(__dirname + '/script.js'));
-// allow multi part form upload of images
-const upload = multer({ dest: 'images/' });
+app.use(express.static(__dirname + '/script.js')); // Serve template and static assets
+const upload = multer({ dest: 'images/' }); // allow multi part form upload of images
 
 
 app.get('/',function(req,res){
@@ -24,40 +22,15 @@ app.get('/assets/*', function(req, res) {
 });
 
 app.post('/predictGenre', upload.single('webcam'), function(req, res, next) {
-  console.log(`file received: ${req.file}`);
-  const predict = spawn("../tensorflow/bazel-bin/tensorflow/examples/label_image/label_image", [
-    "--graph=../trained_weights/100000_0.001/output_graph.pb",
-    "--labels=../trained_weights/100000_0.001/output_labels.txt",
-    "--output_layer=final_result",
-    "--image=" + req.file.path,
-    "--input_layer=Mul"
-  ]);
+  // console.log(`file received: ${req.file}`);
 
-  var keyString = 'main.cc:251]'; // always present on output rows
+  const child = fork('./predict_thread');
+  child.send(req.file.path);
 
-  total_data = '';
-  function processData(data) { total_data = total_data + '\n' + data }
-
-  predict.stderr.on('data', processData); // predictions in stderr for some reason
-  predict.stdout.on('data', processData);
-
-  predict.on('exit', (code) => {
-    // pull all prediction rows out of script output
-    predictions = [];
-    total_data.split('\n').forEach(datum => {
-      locator = datum.indexOf(keyString)
-      if (locator > 0) {
-        predictions.push(datum.slice(locator+keyString.length).trim().replace(/ \([^\)]+\)/g, ''));
-      }
-    });
-
-    console.log(`Child exited with code ${code}
-      predictions: ${predictions}`);
-
-    // respond with predicitons
-    res.send(`${predictions}`);
-  });
-
+  child.on('message', function(message) {
+    console.log('[parent] received message from child: ', message)
+    res.send(`${message}`);
+  })
 });
 
 /*
@@ -90,8 +63,6 @@ app.post('/download', function(req, res){
   })
 });
 */
-
-
 
 app.listen(3000, function () {
   console.log('Genre-ify listening on port 3000')
