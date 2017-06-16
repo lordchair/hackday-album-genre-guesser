@@ -11,10 +11,10 @@ body {
 }
 
 #my_camera {
-  width: 90vw !important;
-  max-width: 1000px;
-  height: 90vw !important;
-  max-height: 1000px;
+  width: 50vh !important;
+  max-width: 800px;
+  height: 50vh !important;
+  max-height: 800px;
   padding: 2rem;
 }
 

@@ -33,37 +33,6 @@ app.post('/predictGenre', upload.single('webcam'), function(req, res, next) {
   })
 });
 
-/*
-// Guess Genre
-app.get('/guessGenre', function(req, res) {
-
-  // Replace all this with the python script
-  const echo = spawn('echo', ["lol who knowsss"]);
-
-  echo.stdout.on('data', (data) => {
-    res.send(`${data}`);
-  })
-});
-
-// Downloads the image at a given url to the /image folder, sets filename based on final URL param
-app.post('/download', function(req, res){
-  const url = req.query.url;
-  const fileName = req.query.fileName;
-
-  const writeStream = fs.createWriteStream('images/' + fileName);
-
-  const request = http.get(url, function(response) {
-    response.pipe(writeStream);
-  })
-
-  writeStream.on('finish', function(){
-    // Report a successful download
-    res.writeHead(200);
-    res.end();
-  })
-});
-*/
-
 app.listen(3000, function () {
   console.log('Genre-ify listening on port 3000')
 })
