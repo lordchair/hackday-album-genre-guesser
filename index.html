@@ -3,29 +3,26 @@
 <head>
   <meta charset="utf-8">
   <title>Genre-ify</title>
+  <script src="assets/script.js"></script>
+  <script src="assets/lib/webcam.js"></script>
+  <script src="assets/lib/jquery.js"></script>
+  <link rel="stylesheet" type="text/css" href="assets/style.css">
 </head>
-<script src="assets/script.js"></script>
-<link rel="stylesheet" type="text/css" href="assets/style.css">
 <body>
-  <div id="uploadPlaceholder">
-    <div id="uploadWrapper">
-      </br>
-      <h3>Pick a file</h3>
-      <img class="fileIcon" src="assets/file.svg"></img>
-      <h3>OR</h3>
-      <input id="urlInput" placeholder="http://"></input>
-      <div id="urlDownload" onclick=onDownload()>
-        <h3>Download from URL</h3>
-      </div>
-    </div>
-    <img id="albumCoverDiv" style="display: none;"></img>
+
+  <div id='camera'>
+    <div id="my_camera"></div>
+
+    <script language="JavaScript">
+    </script>
+
+    <div id="processed_images"></div>
   </div>
-  <center>
-    <h3 class="genreBox" id="guessGenre" style="display: none;" onclick=guessGenre()>Guess Genre</h3>
-    <div id="proposedGenre" style="display: none;">
-      <h3 class="genreBox" >Likely Genre:</h3>
-      <h4 id="answer"><h4>
-    </div>
-  </center>
+
+  <form id="myform" method="post" action="myscript.php">
+    <input id="mydata" type="hidden" name="mydata" value=""/>
+  </form>
+
+ <script>init();</script>
 </body>
 </html>

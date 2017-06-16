@@ -1,50 +1,38 @@
 const express = require("express");
-const spawn   = require('child_process').spawn;
-const app = express();
+const multer = require("multer");
+const fork   = require('child_process').fork;
 const path = require("path");
-const http = require('http');
+
 const fs = require('fs');
+const http = require('http');
+const sharp = require('sharp');
 
 
-// Serve template and static assets
-app.use(express.static(__dirname + '/script.js'));
+const app = express();
+app.use(express.static(__dirname + '/script.js')); // Serve template and static assets
+const upload = multer({ dest: 'images/' }); // allow multi part form upload of images
+
 
 app.get('/',function(req,res){
   res.sendFile(path.join(__dirname + '/index.html'));
 });
+
 app.get('/assets/*', function(req, res) {
   res.sendFile(path.join(__dirname + req.url));
-})
+});
 
-// Guess Genre
-app.get('/guessGenre', function(req, res) {
+app.post('/predictGenre', upload.single('webcam'), function(req, res, next) {
+  // console.log(`file received: ${req.file}`);
 
-  // Replace all this with the python script
-  const echo = spawn('echo', ["lol who knowsss"]);
+  const child = fork('./predict_thread');
+  child.send(req.file.path);
 
-  echo.stdout.on('data', (data) => {
-    res.send(`${data}`);
-  })
-})
-
-// Downloads the image at a given url to the /image folder, sets filename based on final URL param
-app.post('/download', function(req, res){
-  const url = req.query.url;
-  const fileName = req.query.fileName;
-
-  const file = fs.createWriteStream('images/' + fileName);
-  const request = http.get(url, function(response) {
-    response.pipe(file);
-  })
-
-  file.on('finish', function(){
-    // Report a successful download
-    res.writeHead(200);
-    res.end();
+  child.on('message', function(message) {
+    console.log('[parent] received message from child: ', message)
+    res.send(`${message}`);
   })
 });
 
-
 app.listen(3000, function () {
-  console.log('Example app listening on port 3000')
+  console.log('Genre-ify listening on port 3000')
 })
